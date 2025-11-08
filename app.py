@@ -1,6 +1,5 @@
 import streamlit as st
 import time
-import random
 import pandas as pd
 
 # ---- PAGE CONFIG ----
@@ -55,22 +54,40 @@ if choice == "Home":
 # ---- SIMULATE RANSOMWARE ----
 elif choice == "Simulate Attack":
     st.title("⚠️ Ransomware Attack Simulation")
-    st.write("This is a *safe simulation* demonstrating ransomware behavior.")
+    st.write("This is a strictly educational and safe simulation of ransomware behavior. No files are touched, no processes are altered, and no network calls are made.")
+
+    st.code(
+        """
+Safety guarantees (simulator):
+- Does not read, modify, encrypt, or delete any files
+- No background processes or persistence
+- No network activity or data exfiltration
+- UI-only demonstration for awareness training
+""",
+        language="text",
+    )
 
     if st.button("Start Attack Simulation 🚨"):
         messages = [
             "Initializing payload...",
+            "Scanning for target files...",
             "Encrypting files...",
             "Locking system directories...",
             "Disabling system restore...",
-            "Exfiltrating critical files..."
+            "Dropping ransom note...",
+            "Exfiltrating critical files...",
         ]
-        for msg in messages:
-            st.write(msg)
-            time.sleep(1)
+
+        status = st.empty()
+        progress = st.progress(0)
+        step_count = len(messages)
+        for i, msg in enumerate(messages, start=1):
+            status.write(msg)
+            progress.progress(int(i * 100 / step_count))
+            time.sleep(0.8)
 
         st.error("💀 Your files have been encrypted!")
-        st.write("Pay 1 BTC to restore your data. 😈")
+        st.write("Pay 1 BTC to restore your data. 😈 (Don’t actually do this—see recommended responses below.)")
 
         st.subheader("Your Response:")
         col1, col2, col3 = st.columns(3)
@@ -99,7 +116,7 @@ elif choice == "Mitigation Guide":
 - Employee training
 """)
 
-    st.image("https://i.imgur.com/E8nYhM2.png", caption="Zero-Trust Model", use_container_width=True)
+    st.image("https://i.imgur.com/E8nYhM2.png", caption="Zero-Trust Model", use_column_width=True)
 
 # ---- PHISHING QUIZ ----
 elif choice == "Phishing Quiz":
